@@ -1,0 +1,209 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+fpprintprec:8;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Ricker wavelet
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+assume(n>0,b>0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The ricker wavelet is defined as
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f_Ricker: (12*t^2/b^2 - 1)*exp(-6*t^2/b^2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+And its Fourier transform is given by
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+g_Ricker: -sqrt(%pi)*b^3*omega^2*exp(-b^2*omega^2/24)/(2*6^(2/3));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The characteristic (maximum) circular frequency is
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wc: 2*sqrt(6)/b;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R_Ricker(n):= integrate(g_Ricker,omega,0,n*wc)/integrate(g_Ricker,omega,0,inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(R_Ricker(1));
+float(R_Ricker(2));
+float(R_Ricker(3));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R2_Ricker(n):= integrate(g_Ricker^2,omega,0,n*wc)/integrate(g_Ricker^2,omega,0,inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(R2_Ricker(1));
+float(R2_Ricker(1.5));
+float(R2_Ricker(2));
+float(R2_Ricker(3));
+float(R2_Ricker(4));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Gaussian wavelet
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+Still pending
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ws:0.1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+w0:1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+g_gaussian:1/(ws*sqrt(2*%pi))*(exp(-(omega - w0)**2/(2*ws**2)) + exp(-(omega + w0)**2/(2*ws**2)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+g_gaussian:1/(ws*sqrt(2*%pi))*exp(-(omega - w0)**2/(2*ws**2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R2_gauss(wmax):= quad_qags(g_gaussian^2, omega, 0, wmax)[1]/
+               quad_qags(g_gaussian^2, omega, 0, 1000)[1];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R2_gauss(w0);
+R2_gauss(w0 + 1*ws);
+R2_gauss(w0 + 2*ws);
+R2_gauss(w0 + 3*ws);
+R2_gauss(w0 + 4*ws);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+1/2*(1 + erf(0/sqrt(2))),float;
+1/2*(1 + erf(1/sqrt(2))),float;
+1/2*(1 + erf(2/sqrt(2))),float;
+1/2*(1 + erf(3/sqrt(2))),float;
+1/2*(1 + erf(4/sqrt(2))),float;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Square pulse
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+sinc(x):=sin(%pi*x)/(%pi*x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The Fourier transform is
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+g_rect: 1/sqrt(2*%pi)*sinc(omega/(2*%pi));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R2_rect(wmax):= quad_qags(g_rect^2, omega, 0, wmax)[1]/integrate(g_rect^2,omega,0,inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(R2_rect(1));
+float(R2_rect(10));
+float(R2_rect(100));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R2_rect(wmax):= quad_qags(sinc(omega)^2, omega, 0, wmax)[1]/integrate(g_rect^2,omega,0,inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(sinc(x), [x,0,5]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(sinc(x)^2, [x,0,5]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(R2_rect(0.5));
+float(R2_rect(1));
+float(R2_rect(2));
+float(R2_rect(3));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Triangular pulse
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+The fourier transform is
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+g_tri: (1/sqrt(2*%pi)*sinc(omega/(2*%pi)))^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R2_tri(wmax):= quad_qags(g_tri^2, omega, 0, wmax)[1]/integrate(g_tri^2,omega,0,inf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([g_tri], [omega,0,5*%pi])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([g_tri^2], [omega,0,5*%pi])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(R2_tri(0.5*%pi));
+float(R2_tri(%pi));
+float(R2_tri(2*%pi));
+float(R2_tri(3*%pi));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Semicircle pluse
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+The Fourier transform is 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+pending....
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
