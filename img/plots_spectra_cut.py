@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 def f_ricker(t,b):
-    return (12*t**2/b**2 - 1)*np.exp(-6*t**2/b**2)
+    return (1.2*t**2/b**2 - 1.)*np.exp(-6.*t**2/b**2)
     
 def g_ricker(omega,b):
     return np.sqrt(np.pi)*b**3*omega**2*np.exp(-b**2*omega**2/24)/(2*6**(2.0/3.0))
@@ -57,7 +57,6 @@ def g_triangle(omega, Dt):
 #                bbox_extra_artists=[xl])
 #    plt.savefig('ricker_area=%i.png'%(k+1), bbound='tight',
 #                bbox_extra_artists=[xl], dpi=300)
-#    plt.show()
     
     
 ####---------- Gaussian wavelet ----------###
@@ -90,7 +89,6 @@ def g_triangle(omega, Dt):
 #                bbox_extra_artists=[xl])
 #    plt.savefig('gaussian_area=%i.png'%(k+1), bbox_inches='tight',
 #                bbox_extra_artists=[xl], dpi=300)
-#    plt.show()
     
     
 
@@ -122,7 +120,6 @@ def g_triangle(omega, Dt):
 #                bbox_extra_artists=[xl])
 #    plt.savefig('square_area=%i.png'%(k+1), bbox_inches='tight',
 #                bbox_extra_artists=[xl], dpi=300)
-#    plt.show()
     
     
 ###---------- Triangle wavelet ----------###
@@ -153,4 +150,6 @@ for k in range(0,4):
                 bbox_extra_artists=[xl])
     plt.savefig('triangle_area=%i.png'%(k+1), bbox_inches='tight',
                 bbox_extra_artists=[xl], dpi=300)
-    plt.show()
+
+
+plt.show()
