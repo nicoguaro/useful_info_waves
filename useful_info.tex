@@ -73,16 +73,15 @@ The P-wave is a dilatational wave with speed $\alpha$ given by
  & \frac{\alpha^{2}}{\beta^{2}}\rightarrow\infty\quad\mbox{when }\nu\rightarrow\frac{1}{2}\enspace.
 \end{align*}
 
-
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{img/E_vs_density-vector.pdf} 
+\caption{Ashby chart for Young Modulus vs density. The lines show the sound speed, that is the speed for a wave in a rod made of this material and is between the longitudinal and shear wave speeds --for Poisson ratios in (-0.5,0.5). Taken from \emph{Ashby, Michael F. ``Materials selection in mechanical design." MRS BULLETIN 30 (2005): 995.}}
+\end{figure}
 
 \section{Courant-Friedrichs-Lewy condition}
 
-The Courant-Friedrichs-Lewy condition (CFL condition) is a necessary
-condition for convergence while solving certain partial differential
-equations (usually hyperbolic PDEs) numerically by the method of finite
-differences. It arises when explicit time-marching schemes are used
-for the numerical solution. The condition is named after Richard Courant,
-Kurt Friedrichs, and Hans Lewy who described it in their 1928 paper
+The Courant-Friedrichs-Lewy condition (CFL condition) is a necessary condition for convergence while solving certain partial differential equations (usually hyperbolic PDEs) numerically by the method of finite differences. It arises when explicit time-marching schemes are used for the numerical solution. The condition is named after Richard Courant, Kurt Friedrichs, and Hans Lewy who described it in their 1928 paper
 \cite{CFL}.
 
 The criterion could be stated as 
@@ -91,11 +90,7 @@ C=v_{x}\frac{\Delta t}{\Delta x}\leq C_{max}\qquad\mbox{in 1D}\enspace;\\
 C=v_{x}\frac{\Delta t}{\Delta x}+v_{y}\frac{\Delta t}{\Delta y}\leq C_{max}\qquad\mbox{in 2D}\enspace;\\
 C=v_{x}\frac{\Delta t}{\Delta x}+v_{y}\frac{\Delta t}{\Delta y}+v_{z}\frac{\Delta t}{\Delta z}\leq C_{max}\qquad\mbox{in 3D}\enspace;
 \end{align*}
- Where $v_{x_{i}}$ is the phase speed (for wave phenomena) in the
-$x_{i}$ direction, $\Delta x_{i}$ is the minimum spatial discretization
-in $x_{i}$ direction, $\Delta t$ is the time step and $C_{max}$
-is the maximum allowable value for $C$, which depends on the time
-discretization scheme but should be less than 1.
+ Where $v_{x_{i}}$ is the phase speed (for wave phenomena) in the $x_{i}$ direction, $\Delta x_{i}$ is the minimum spatial discretization in $x_{i}$ direction, $\Delta t$ is the time step and $C_{max}$ is the maximum allowable value for $C$, which depends on the time discretization scheme but should be less than 1.
 
 In the case of elastodynamics and for a spatial discretization with
 the finite element method, the criterion could be re-stated as 
@@ -104,7 +99,7 @@ C\leq\alpha\frac{\Delta t}{h}\leq C_{max}\qquad\mbox{in 1D}\enspace;\\
 C\leq2\alpha\frac{\Delta t}{h}\leq C_{max}\qquad\mbox{in 2D}\enspace;\\
 C\leq3\alpha\frac{\Delta t}{h}\leq C_{max}\qquad\mbox{in 3D}\enspace;
 \end{align*}
- where $\alpha$ is the phase speed for the P-wave and $h$ is the
+where $\alpha$ is the phase speed for the P-wave and $h$ is the
 minimum distance between consecutive nodes. This give us the maximum
 allowable timestep as 
 \begin{align}
@@ -112,19 +107,19 @@ allowable timestep as
 \Delta t\leq\frac{C_{max}}{2}\frac{h}{\alpha}\qquad\mbox{in 2D}\enspace;\\
 \Delta t\leq\frac{C_{max}}{3}\frac{h}{\alpha}\qquad\mbox{in 3D}\enspace.
 \end{align}
+A graphical representation of the criterion is given in Figure \ref{fig:CFL}. Intuitively, we can think about the CFL condition as a limit in the speed for transferring information from one node to its neighbors; this \emph{speed} should be less than the speed for propagation of phenomena in the wave.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{img/CFLcondition.png}
+\caption{Graphic representation of the CFL condition in 1D. \textit{L.A. Barba et al. Practical Numerical Methods with Python, 2014.}}\label{fig:CFL}
+\end{figure}
 
 
 
 \section{Nyquist criterion}
 
-The Nyquist–Shannon sampling theorem, after Harry Nyquist and Claude
-Shannon, in the literature more commonly referred to as the Nyquist
-sampling theorem or simply as the sampling theorem, is a fundamental
-result in the field of information theory, in particular telecommunications
-and signal processing. Sampling is the process of converting a signal
-(for example, a function of continuous time or space) into a numeric
-sequence (a function of discrete time or space). Shannon's version
-of the theorem states \cite{Shannon}:
+The Nyquist–Shannon sampling theorem (also Nyquist-Shannon-Whittaker theorem), after Harry Nyquist and Claude Shannon, in the literature more commonly referred to as the Nyquist sampling theorem or simply as the sampling theorem, is a fundamental result in the field of information theory, in particular telecommunications and signal processing. Sampling is the process of converting a signal (for example, a function of continuous time or space) into a numeric
+sequence (a function of discrete time or space). Shannon's version of the theorem states \cite{Shannon}:
 \begin{quote}
 If a function $x(t)$ contains no frequencies higher than $B$ hertz,
 it is completely determined by giving its ordinates at a series of
@@ -146,7 +141,9 @@ finite element methods $k$ is commonly 10, and for spectral element
 methods $k$ is reduced to 5 \cite{Komatitsch99}.
 
 
-\section{Ricker wavelet}
+\section{Information for different pulse signals}
+
+\subsection{Ricker wavelet}
 
 It is common to use a Ricker wavelet as the input signal in simulations
 since it has the energy concentrated around a circular frequency $\omega_{c}$.
