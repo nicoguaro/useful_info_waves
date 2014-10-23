@@ -4,6 +4,12 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{subcaption}
+	\captionsetup{font=small,
+				  labelfont=bf,
+				  labelsep=period}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 
@@ -115,7 +121,6 @@ A graphical representation of the criterion is given in Figure \ref{fig:CFL}. In
 \end{figure}
 
 
-
 \section{Nyquist criterion}
 
 The Nyquist–Shannon sampling theorem (also Nyquist-Shannon-Whittaker theorem), after Harry Nyquist and Claude Shannon, in the literature more commonly referred to as the Nyquist sampling theorem or simply as the sampling theorem, is a fundamental result in the field of information theory, in particular telecommunications and signal processing. Sampling is the process of converting a signal (for example, a function of continuous time or space) into a numeric
@@ -142,61 +147,72 @@ methods $k$ is reduced to 5 \cite{Komatitsch99}.
 
 
 \section{Information for different pulse signals}
+In wave propagation problems we must work with time signals that are finite in time, let's say wave pulses (or wave packets in the Quantum Mechanics jargon). Some times we are interested in wave pulses because they are useful as wavefronts representation. Furthermore, wave packets are important since we cannot store information in a wave with a single frequency\footnote{That's why phase speed of waves can be higher than speed of light. For non-dissipative media, the energy (and so the information) travel with the group velocity \cite{book:Brillouin1}.}. There is a trade off between the localization in time (duration of the pulse) and frequency (concentration of the energy around a specific value). This fact is well discussed in Quantum Mechanics texts since it re ects the discussion about wave{particle duality and uncertainty principle \cite{book:Zetilli}. When we have finite time signals its corresponding Fourier transform will be in the whole frequency domain. In general terms, while more concentrated in the time domain, more spread in the frequency domain. From a numerical point of view we need to truncate the maximum frequency allowed for our simulations.
+
+In the following \emph{subsections} we exposed some truncation tips for different wave pulses. This is important because numerically we cannot consider the complete spectrum of a pulse, since normally they cover the whole frequency domain. We will refer to the function in time as $f(t)$, and to its Fourier transform as $\hat{f}(\omega)$. Since the ``energy" carried for the wave per frequency is proportional to the square of the absolute value of the Fourier transform $\hat{f}^2(\omega)$, we can compare the energy in the frequency interval $[0,\omega_{\max}]$ to the energy content in $[0,\infty)$\footnote{We just need to compute one halfspace because the other half has the same values.}. Thus, as a figure of merit we define
+\begin{equation}
+R(\omega_{\max}) = \frac{\int\limits_{0}^{\omega_{\max}} \hat{f}^2 (\omega)\ \rm{d}\omega}{\int\limits_{0}^{\infty} \hat{f}^2 (\omega)\ \rm{d}\omega}\times 100\% \enspace ,
+\label{eq:trunc_energy}
+\end{equation}
+and tell us the proportion of energy taken into account if we neglect circular frequencies higher than $\omega_{\max}$.
 
 \subsection{Ricker wavelet}
-
-It is common to use a Ricker wavelet as the input signal in simulations
-since it has the energy concentrated around a circular frequency $\omega_{c}$.
-Let's write the signal as 
-\[
-f(t)=\left(\frac{12t^{2}}{b^{2}}-1\right)e^{-\frac{6t^{2}}{b^{2}}}\enspace,
-\]
- where $b$ is the elapsed time between the peaks in the time domain
-\cite{Papageorgiou91}. The Fourier transform for this signal is 
-\[
-\hat{f}(\omega)=-\frac{\sqrt{\pi}b^{3}\omega^{2}e^{-\frac{b^{2}\omega^{2}}{24}}}{2\ 6^{3/2}}\enspace,
-\]
- with a characteristic (maximum) circular frequency 
-\[
-\omega_{c}=\frac{2\sqrt{6}}{b}.
-\]
- To satisfy the sampling theorem we need to design our simulations
+It is common to use a Ricker wavelet as the input signal in simulations since it has the energy concentrated around a circular frequency $\omega_{c}$. Let's write the signal as 
+\[f(t)=\left(\frac{12t^{2}}{b^{2}}-1\right)e^{-\frac{6t^{2}}{b^{2}}}\enspace,\]
+ where $b$ is the elapsed time between the peaks in the time domain \cite{Papageorgiou91}. The Fourier transform for this signal is  
+\[\hat{f}(\omega)=-\frac{\sqrt{\pi}b^{3}\omega^{2}e^{-\frac{b^{2}\omega^{2}}{24}}}{2\ 6^{3/2}}\enspace, \]
+with a characteristic\footnote{The characteristic frequency is the value at which the peak appears.} circular frequency 
+\[\omega_{c}=\frac{2\sqrt{6}}{b}. \]
+To satisfy the sampling theorem we need to design our simulations
 thinking about the shortest wavelength, so we need to think about
-the maximum frequency. To know where to trunk the signal (in the frequency
-domain) we could compute how much energy is in $[0,\omega_{max}]$
-and compare this value with the energy stored in the interval $[0,\infty)$.
-So, the ratio 
-\[
-R(\omega_{max})=\frac{\int\limits _{0}^{\omega_{max}}\hat{f}(\omega)d\omega}{\int\limits _{0}^{\infty}\hat{f}(\omega)d\omega}\times100\%\enspace,
-\]
- tell us the proportion of energy taken into account if we neglect
-circular frequencies higher than $\omega_{max}$. Some particular
-values are : 
-\begin{align}
- & R(1.0\omega_{c})=42.76\%\enspace;\\
- & R(1.5\omega_{c})=78.77\%\enspace;\\
- & R(2.0\omega_{c})=95.40\%\enspace;\\
- & R(3.0\omega_{c})=99.96\%\enspace;\\
- & R(4.0\omega_{c})=99.99\%\enspace.
-\end{align}
+the maximum frequency. To know where to trunk the signal (in the frequency domain) we could compute how much energy is in $[0,\omega_{max}]$ and compare this value with the energy stored in the interval $[0,\infty)$. Some particular values are : 
+\begin{align*}
+ & R(1.0\omega_{c})=45.06\%\enspace;\\
+ & R(1.5\omega_{c})=89.09\%\enspace;\\
+ & R(2.0\omega_{c})=99.32\%\enspace;\\
+ & R(3.0\omega_{c})=99.99\%\enspace;\\
+ & R(4.0\omega_{c})=100.00\%\enspace.
+\end{align*}
+This can be depicted in
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/ricker_area=1.pdf}
+        \caption{Are under the curve in $[0,\omega_c]$.}
+    \end{subfigure}\
+    %
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/ricker_area=2.pdf}
+        \caption{Are under the curve in $[0,2\omega_c]$.}
+    \end{subfigure}\\
+    %
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/ricker_area=3.pdf}
+        \caption{Are under the curve in $[0,3\omega_c]$.}
+    \end{subfigure}
+    %
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{img/ricker_area=4.pdf}
+        \caption{Are under the curve in $[0,4\omega_c]$.}
+    \end{subfigure}
+    \caption{Energy distribution in the spectrum of the Ricker wavelet.}
+    \label{fig:ricker-areas}
+\end{figure}
 
 \begin{thebibliography}{1}
-\bibitem{CFL} Courant, R.; Friedrichs, K.; Lewy, H. (1928), \emph{\"Uber
-die partiellen Differenzengleichungen der mathematischen Physik} (in
-German), Mathematische Annalen 100 (1): 32--74.
+\bibitem{book:Brillouin1} Brillouin, Le\'on, and Arnold Sommerfeld. Wave propagation and group velocity. Vol. 960. New York: Academic Press, 1960.
 
-\bibitem{Shannon} C. E. Shannon, \emph{Communication in the presence
-of noise}, Proc. Institute of Radio Engineers, vol. 37, no. 1, pp.
-10--21, Jan. 1949. Reprint as classic paper in: Proc. IEEE, vol. 86,
-no. 2, (Feb. 1998).
+\bibitem{CFL} Courant, R.; Friedrichs, K.; Lewy, H. (1928), \emph{\"Uber die partiellen Differenzengleichungen der mathematischen Physik} (in German), Mathematische Annalen 100 (1): 32--74.
 
-\bibitem{Komatitsch99} D. Komatitsch and J. Tromp,\emph{Introduction
-to the spectral element method for three-dimensional seismic wave
-propagation}, Geophysical Journal International, 1999, (139): 806--822.
+\bibitem{Shannon} C. E. Shannon, \emph{Communication in the presence of noise}, Proc. Institute of Radio Engineers, vol. 37, no. 1, pp. 10--21, Jan. 1949. Reprint as classic paper in: Proc. IEEE, vol. 86, no. 2, (Feb. 1998).
 
-\bibitem{Papageorgiou91} A. Papageorgiou and J. Kim,\emph{Stufy of
-the propagation and amplification of seismic waves in Caracas Valley
-with reference to the 29 July 1967 earthquake: SH waves}, Bulletin
-of the Seismological Society of America, 1991, 81 (6): 2214--2233. \end{thebibliography}
+\bibitem{Komatitsch99} D. Komatitsch and J. Tromp,\emph{Introduction to the spectral element method for three-dimensional seismic wave propagation}, Geophysical Journal International, 1999, (139): 806--822.
+
+\bibitem{Papageorgiou91} A. Papageorgiou and J. Kim,\emph{Stufy of the propagation and amplification of seismic waves in Caracas Valley with reference to the 29 July 1967 earthquake: SH waves}, Bulletin of the Seismological Society of America, 1991, 81 (6): 2214--2233. 
+
+\bibitem{book:Zetilli} Nouredine Zettili. Quantum mechanics: concepts and applications. Wiley, 2009. 
+
+\end{thebibliography}
+
 
 \end{document}
