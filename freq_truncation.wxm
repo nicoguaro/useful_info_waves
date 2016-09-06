@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 12.04.0 ] */
+/* [ Created with wxMaxima version 14.12.1 ] */
 
 /* [wxMaxima: input   start ] */
 kill(all);
@@ -192,18 +192,6 @@ float(R2_tri(%pi));
 float(R2_tri(2*%pi));
 float(R2_tri(3*%pi));
 /* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: section start ]
-Semicircle pluse
-   [wxMaxima: section end   ] */
-
-/* [wxMaxima: comment start ]
-The Fourier transform is 
-   [wxMaxima: comment end   ] */
-
-/* [wxMaxima: comment start ]
-pending....
-   [wxMaxima: comment end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$
