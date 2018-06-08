@@ -7,13 +7,30 @@
 \usepackage{hyperref}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{float}
 
 
 %%% Package setup
 \captionsetup{font=small,
 			  labelfont=bf,
 			  labelsep=period}
-			  
+
+
+
+\hypersetup{
+	bookmarksopen=true,
+	colorlinks=true,
+	linkcolor=blue,
+	citecolor=blue,
+	urlcolor=black,	
+	linktoc=all,
+	pdftitle={Wave propagation info},
+	pdfauthor={N. Guarin-Zapata},
+	pdfkeywords={Wave propagation, Signal processing},
+	pdfsubject={Wave propagation},
+	pdfpagemode=UseOutlines,
+	pdfstartview=FitH}
+
 
 %%% User specified LaTeX commands
 \newcommand*{\bs}[1]{\boldsymbol{#1}}
@@ -198,7 +215,7 @@ the maximum frequency. To know where to trunk the signal (in the frequency domai
  & R(4.0\omega_{c})=100.00\%\enspace.
 \end{align*}
 This can be depicted in Figure \ref{fig:ricker-areas}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{img/ricker_area=1.pdf}
@@ -243,7 +260,7 @@ If we consider that \(\omega_0/\omega_\sigma >0\) we can have the expressions
     &R(\omega_0 + 4\omega_\sigma) = 100.00\%
 \end{align*}
 that is depicted in Figure \ref{fig:gaussian-areas}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{img/gaussian_area=1.pdf}
@@ -291,7 +308,7 @@ for this case, the ratios \(R\) are:
 \end{align*}
 
 This can be depicted in Figure \ref{fig:square-areas}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{img/square_area=1.pdf}
@@ -331,7 +348,7 @@ For this case the ratios are:
 \end{align*}
 
 That are depicted in Figure \ref{fig:triangle-areas}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{img/triangle_area=1.pdf}
